@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+def main(request):
+    return render(request,'main.html')
+
+def about(request):
+    return render(request,'about.html')
+
+def contacts(request):
+    return render(request,'contacts.html')
