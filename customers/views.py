@@ -7,7 +7,7 @@ from .forms import LoginForm, RegisterForm
 
 @login_required
 def home(request):
-    return render(request, 'profiles/home.html')
+    return render(request, 'customers/home.html')
 
 
 def login(request):
@@ -20,9 +20,9 @@ def login(request):
             user = form.get_user()
             auth_login(request, user)
 
-            return redirect('profiles_home')
+            return redirect('home')
 
-    return render(request, 'profiles/login.html', {'form': form})
+    return render(request, 'customers/login.html', {'form': form})
 
 
 def register(request):
@@ -48,11 +48,11 @@ def register(request):
             user = authenticate(request, username=username, password=password)
             auth_login(request, user)
 
-            return redirect('profiles_home')
+            return redirect('home')
 
         # проверка валидности формы
 
-    return render(request, 'profiles/register.html', {'form': form})
+    return render(request, 'customers/register.html', {'form': form})
 
 
 def logout(request):

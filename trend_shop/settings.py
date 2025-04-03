@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'products',
-    'profiles',
+    'customers',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -122,7 +122,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-LOGIN_URL = '/profiles/login'
+LOGIN_URL = '/customers/login'
 
 
 

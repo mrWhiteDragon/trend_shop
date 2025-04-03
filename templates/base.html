@@ -32,17 +32,17 @@
                         </li>
                         {% if request.user.is_authenticated  %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profiles_home' %}">Личный кабинет</a>
+                            <a class="nav-link" href="{% url 'home' %}">Личный кабинет</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Корзина</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profiles_logout' %}">Выйти</a>
+                            <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profiles_login' %}">Войти</a>
+                            <a class="nav-link" href="{% url 'login' %}">Войти</a>
                         </li>
                         {% endif %}
                     </ul>
