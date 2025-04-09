@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Тренд{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+             class="img-fluid rounded" alt="{{ product.name }}">
+    </div>
+    <div class="col-md-6">
+        <h1>{{ product.name }}</h1>
+        <p class="h4 text-danger mb-4">{{ product.price|floatformat:2 }} руб.</p>
+        <p>{{ product.description }}</p>
+        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Добавить в корзину</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

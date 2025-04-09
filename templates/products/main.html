@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <!-- Баннер акции -->
+    <div class="banner mb-5 p-5 bg-primary text-white rounded">
+        <h2 class="display-4">Специальное предложение!</h2>
+        <p class="lead">Только этой недели скидки на топовые товары до 30%</p>
+        <a href="{% url 'product_list' %}" class="btn btn-light btn-lg">Перейти в каталог</a>
+    </div>
+
+    <!-- Акционные товары -->
+    <h3 class="mb-4">Акционные товары</h3>
+    <div class="row">
+        {% for product in featured_products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="badge bg-danger position-absolute" style="top: 0.5rem; right: 0.5rem">АКЦИЯ</div>
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/no_image.png{% endif %}"
+                         class="card-img-top" alt="{{ product.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-danger">
+                        <strong>{{ product.price }} руб.</strong>
+                    </p>
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">В корзину</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Сейчас нет акционных товаров.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
