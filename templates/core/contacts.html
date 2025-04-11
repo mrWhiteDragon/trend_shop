@@ -3,73 +3,134 @@
 {% block title %}Контакты | Тренд{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <h1 class="mb-4">Контакты</h1>
+<div class="container my-4 my-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <!-- Заголовок с декоративным элементом -->
+            <div class="d-flex align-items-center mb-4">
+                <h1 class="fw-bold mb-0">Контакты <span class="text-primary">Тренд</span></h1>
+            </div>
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="h4">Контактная информация</h2>
+            <p class="lead text-muted mb-5">
+                Мы всегда рады вашим вопросам и предложениям. Свяжитесь с нами удобным для вас способом.
+            </p>
 
-                    <div class="row">
+            <!-- Контактная информация -->
+            <div class="card border-0 shadow-sm mb-4 hover-effect">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-info-circle text-primary fs-3 me-3"></i>
+                        <h2 class="h4 fw-bold mb-0">Контактная информация</h2>
+                    </div>
+
+                    <div class="row g-4">
                         <div class="col-md-6">
-                            <h3 class="h5 mt-3">Адрес</h3>
-                            <p>
-                                <i class="bi bi-geo-alt-fill me-2"></i>
-                                г. Москва, ул. Технологическая, 42
-                            </p>
-
-                            <h3 class="h5 mt-4">Телефоны</h3>
-                            <p>
-                                <i class="bi bi-telephone-fill me-2"></i>
-                                +7 (495) 123-45-67<br>
-                                <i class="bi bi-phone-fill me-2"></i>
-                                +7 (900) 123-45-67
-                            </p>
+                            <div class="d-flex align-items-start contact-item">
+                                <i class="bi bi-geo-alt-fill text-primary fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <h3 class="h5 fw-bold mb-2">Адрес</h3>
+                                    <p class="mb-0">г. Екатеринбург,<br> ул. Радищева, 27<br>
+                                    <small class="text-muted">БЦ "ТехноПарк", 5 этаж</small></p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <h3 class="h5 mt-3">Электронная почта</h3>
-                            <p>
-                                <i class="bi bi-envelope-fill me-2"></i>
-                                info@trend-shop.ru
-                            </p>
+                            <div class="d-flex align-items-start contact-item">
+                                <i class="bi bi-clock-fill text-primary fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <h3 class="h5 fw-bold mb-2">Режим работы</h3>
+                                    <p class="mb-0">Пн-Пт: 10:00 - 20:00<br>
+                                    Сб-Вс: 10:00 - 18:00</p>
+                                </div>
+                            </div>
+                        </div>
 
-                            <h3 class="h5 mt-4">Режим работы</h3>
-                            <p>
-                                <i class="bi bi-clock-fill me-2"></i>
-                                Пн-Пт: 9:00 - 20:00<br>
-                                <i class="bi bi-clock-fill me-2"></i>
-                                Сб-Вс: 10:00 - 18:00
-                            </p>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start contact-item">
+                                <i class="bi bi-telephone-fill text-primary fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <h3 class="h5 fw-bold mb-2">Телефоны</h3>
+                                    <p class="mb-0">+7 (343) 123-45-67<br>
+                                    +7 (900) 123-45-67</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start contact-item">
+                                <i class="bi bi-envelope-fill text-primary fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <h3 class="h5 fw-bold mb-2">Электронная почта</h3>
+                                    <p class="mb-0">info@trend-shop.ru<br>
+                                    <small class="text-muted">support@trend-shop.ru</small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="h4">Форма обратной связи</h2>
-                    <form method="post">
+             <!-- Карта -->
+            <div class="card border-0 shadow-sm mb-4 hover-effect">
+                <div class="card-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A4f3b2e1a8b5c6d7e8f9a0b1c2d3e4f5&amp;lang=ru_RU&amp;scroll=true&amp;source=constructor" frameborder="0"></iframe>
+                    </div>
+                    <div class="p-3 p-md-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-geo text-primary fs-4 me-3"></i>
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Как добраться</h3>
+                                <p class="small text-muted mb-0">Ближайшее метро: "Геологическая" (10 минут пешком)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Форма обратной связи -->
+            <div class="card border-0 shadow-sm hover-effect">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="bi bi-send-fill text-primary fs-3 me-3"></i>
+                        <h2 class="h4 fw-bold mb-0">Форма обратной связи</h2>
+                    </div>
+
+                    <form method="post" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Ваше имя</label>
-                            <input type="text" class="form-control" id="name" required>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="name" placeholder="Иван Иванов" required>
+                                    <label for="name">Ваше имя</label>
+                                    <div class="invalid-feedback">Пожалуйста, введите ваше имя</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                                    <label for="email">Email</label>
+                                    <div class="invalid-feedback">Пожалуйста, введите корректный email</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="message" placeholder="Ваше сообщение" style="height: 120px" required></textarea>
+                                    <label for="message">Сообщение</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary px-4 py-2 fw-bold">
+                                    <i class="bi bi-send-fill me-2"></i>Отправить сообщение
+                                </button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Сообщение</label>
-                            <textarea class="form-control" id="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Отправить</button>
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+
 {% endblock %}

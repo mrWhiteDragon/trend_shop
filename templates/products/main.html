@@ -1,14 +1,25 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container">
+    <div class="container mt-4">
+        <form class="d-flex mb-4" action="{% url 'product_list' %}" method="get">
+            <input class="form-control search-box me-2" type="search" name="q" placeholder="🔍 Найти джинсы, кроссовки, гаджеты...">
+            <button class="btn btn-primary search-btn" type="submit">
+                <span class="d-none d-sm-inline">Поиск</span>
+                <span class="d-inline d-sm-none"><i class="bi bi-search"></i></span>
+            </button>
+        </form>
+    </div>
+
     <!-- Баннер акции -->
     <div class="banner mb-5 p-4 p-md-5 text-white rounded">
         <div class="row align-items-center">
             <div class="col-md-8">
                 <h1 class="display-5 fw-bold mb-3">Главный дроп сезона!</h1>
                 <p class="lead mb-4">Новые коллекции уже в продаже. Скидки до 50% на предыдущую коллекцию</p>
-                <a href="{% url 'product_list' %}?sale=true" class="btn btn-light btn-lg px-4 py-2 fw-bold">Смотреть скидки</a>
+                <a href="{% url 'product_list' %}?sale=true" class="btn btn-light btn-lg px-4 py-2 fw-bold">Смотреть каталог</a>
             </div>
             <div class="col-md-4 d-none d-md-block">
                 <img src="https://via.placeholder.com/300x200/6c5ce7/ffffff?text=TRND+2025" class="img-fluid rounded" alt="Акция">
@@ -24,28 +35,49 @@
 
     <div class="row g-4">
         {% for product in featured_products %}
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-                <div class="badge bg-accent position-absolute" style="top: 10px; right: 10px">-{{ product.discount }}%</div>
-                <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
-                    <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/no_image.png{% endif %}"
-                         class="card-img-top p-3" alt="{{ product.name }}">
-                    <div class="card-body pt-0">
-                        <h6 class="card-title mb-2">{{ product.name|truncatechars:40 }}</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="card-text text-danger mb-0 fw-bold">{{ product.discounted_price }} ₽</p>
-                                <p class="card-text text-muted small text-decoration-line-through">{{ product.price }} ₽</p>
-                            </div>
-                            <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-primary rounded-circle p-2">
-                                    <i class="bi bi-cart-plus"></i>
-                                </button>
-                            </form>
-                        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-effect">
+                <!-- Плашка "Акция" -->
+                {% if product.old_price %}
+                <span class="badge bg-accent position-absolute top-0 end-0 m-2">
+                    <i class="bi bi-percent"></i> Акция
+                </span>
+                {% endif %}
+
+                <!-- Квадратное изображение 1:1 -->
+                <div class="ratio ratio-1x1 bg-light">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                         class="card-img-top p-3 object-fit-contain"
+                         alt="{{ product.name }}">
+                </div>
+
+                <div class="card-body d-flex flex-column pb-0">
+                    <h5 class="card-title">
+                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
+                            {{ product.name }}
+                        </a>
+                    </h5>
+
+                    <!-- Блок с ценами -->
+                    <div class="mt-auto mb-3">
+                        {% if product.old_price %}
+                        <p class="text-muted mb-1">
+                            <del>{{ product.old_price|floatformat:2 }} руб.</del>
+                        </p>
+                        {% endif %}
+                        <h5 class="text-primary mb-0">{{ product.price|floatformat:2 }} руб.</h5>
                     </div>
-                </a>
+                </div>
+
+                <!-- Кнопка "В корзину" -->
+                <div class="card-footer bg-white border-0 pt-0 pb-3">
+                    <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="bi bi-cart3 me-2"></i>В корзину
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         {% empty %}

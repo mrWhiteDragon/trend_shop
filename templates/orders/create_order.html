@@ -1,42 +1,61 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Оформление заказа{% endblock %}
+{% block title %}Оформление заказа | TRND{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Оформление заказа</h1>
+<div class="container my-4">
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="fw-bold mb-0">Оформление заказа</h1>
+        <span class="ms-3 fs-4 text-primary"><i class="bi bi-bag-check"></i></span>
+    </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="h4 mb-3">Данные для доставки</h2>
+    <div class="row g-4">
+        <!-- Форма заказа -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="bi bi-truck text-primary fs-3 me-3"></i>
+                        <h2 class="h4 fw-bold mb-0">Данные для доставки</h2>
+                    </div>
+
                     <form method="post">
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold">
+                                <i class="bi bi-check-circle me-2"></i>Подтвердить заказ
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="h4 mb-3">Ваш заказ</h2>
-                    <ul class="list-group mb-3">
+        <!-- Корзина -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm sticky-md-top" style="top: 20px;">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-cart3 text-primary fs-3 me-3"></i>
+                        <h2 class="h4 fw-bold mb-0">Ваш заказ</h2>
+                    </div>
+
+                    <ul class="list-group list-group-flush mb-3">
                         {% for item in cart.items.all %}
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>{{ item.quantity }} x {{ item.product.name }}</span>
-                            <span>{{ item.total_price }} ₽</span>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                            <span class="small">{{ item.quantity }} × {{ item.product.name|truncatechars:20 }}</span>
+                            <span class="fw-bold">{{ item.total_price }} ₽</span>
                         </li>
                         {% endfor %}
-                        <li class="list-group-item d-flex justify-content-between bg-light">
-                            <strong>Итого</strong>
-                            <strong>{{ cart.total_price }} ₽</strong>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3 bg-light">
+                            <strong class="text-uppercase small">Итого</strong>
+                            <strong class="text-primary fs-5">{{ cart.total_price }} ₽</strong>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </div>

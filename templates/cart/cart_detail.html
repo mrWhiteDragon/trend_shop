@@ -1,57 +1,127 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Корзина{% endblock %}
+{% block title %}Корзина | Тренд{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Ваша корзина</h1>
+<div class="container my-4">
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="fw-bold mb-0">Ваша корзина</h1>
+        <span class="ms-3 fs-4 text-primary"><i class="bi bi-cart3"></i></span>
+    </div>
 
     {% if cart.items.all %}
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Товар</th>
-                    <th>Количество</th>
-                    <th>Цена</th>
-                    <th>Сумма</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="card border-0 shadow-sm mb-4">
+        <!-- Десктопная таблица -->
+        <div class="d-none d-md-block">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Товар</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                            <th>Сумма</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>
+                                <form method="post" action="{% url 'cart:update_cart_item' item.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="number"
+                                           name="quantity"
+                                           value="{{ item.quantity }}"
+                                           min="1"
+                                           class="form-control form-control-sm"
+                                           style="width: 80px;"
+                                           onchange="this.form.submit()">
+                                </form>
+                            </td>
+                            <td>{{ item.product.price }} ₽</td>
+                            <td class="fw-bold text-primary">{{ item.total_price }} ₽</td>
+                            <td class="text-end">
+                                <a href="{% url 'cart:remove_from_cart' item.id %}"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash me-1"></i>Удалить
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <th colspan="3">Итого:</th>
+                            <th colspan="2" class="text-primary">{{ cart.total_price }} ₽</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Мобильный список -->
+        <div class="d-md-none">
+            <div class="list-group list-group-flush">
                 {% for item in cart.items.all %}
-                <tr>
-                    <td>{{ item.product.name }}</td>
-                    <td>
-                        <form method="post" action="{% url 'cart:update_cart_item' item.id %}">
+                <div class="list-group-item py-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="fw-bold mb-0">{{ item.product.name }}</h6>
+                        <span class="fw-bold text-primary">{{ item.total_price }} ₽</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <form method="post" action="{% url 'cart:update_cart_item' item.id %}" class="d-flex align-items-center">
                             {% csrf_token %}
-                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="width: 80px;">
+                            <span class="me-2">Кол-во:</span>
+                            <input type="number"
+                                   name="quantity"
+                                   value="{{ item.quantity }}"
+                                   min="1"
+                                   class="form-control form-control-sm"
+                                   style="width: 70px;"
+                                   onchange="this.form.submit()">
                         </form>
-                    </td>
-                    <td>{{ item.product.price }} ₽</td>
-                    <td>{{ item.total_price }} ₽</td>
-                    <td>
-                        <a href="{% url 'cart:remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Удалить</a>
-                    </td>
-                </tr>
+
+                        <div>
+                            <span class="text-muted me-2">{{ item.product.price }} ₽/шт</span>
+                            <a href="{% url 'cart:remove_from_cart' item.id %}"
+                               class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="3">Итого:</th>
-                    <th colspan="2">{{ cart.total_price }} ₽</th>
-                </tr>
-            </tfoot>
-        </table>
+
+                <div class="list-group-item py-3 bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold mb-0">Итого:</h6>
+                        <span class="fw-bold text-primary fs-5">{{ cart.total_price }} ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="d-flex justify-content-between">
-        <a href="{% url 'product_list' %}" class="btn btn-secondary">Продолжить покупки</a>
-        <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Оформить заказ</a>
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+        <a href="{% url 'product_list' %}" class="btn btn-outline-primary flex-grow-1">
+            <i class="bi bi-arrow-left me-2"></i>Продолжить покупки
+        </a>
+        <a href="{% url 'orders:create_order' %}" class="btn btn-primary flex-grow-1">
+            Оформить заказ <i class="bi bi-arrow-right ms-2"></i>
+        </a>
     </div>
     {% else %}
-    <div class="alert alert-info">
-        Ваша корзина пуста. <a href="{% url 'product_list' %}" class="alert-link">Начать покупки</a>
+    <div class="card border-0 shadow-sm text-center py-5">
+        <div class="card-body">
+            <i class="bi bi-cart-x text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold mb-3">Ваша корзина пуста</h4>
+            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                <i class="bi bi-grid me-2"></i>Перейти в каталог
+            </a>
+        </div>
     </div>
     {% endif %}
 </div>

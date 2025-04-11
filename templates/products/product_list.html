@@ -1,56 +1,100 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-
 {% block title %}Каталог товаров | Тренд{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-3">
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                Категории
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item {% if not category %}active{% endif %}">
-                    <a href="#" class="text-decoration-none">Все товары</a>
-                </li>
-                {% for c in categories %}
-                <li class="list-group-item {% if category.slug == c.slug %}active{% endif %}">
-                    <a href="#" class="text-decoration-none">{{ c.name }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Бургер-меню для мобильных (только на экранах меньше md) -->
+        <div class="d-md-none mb-3">
+            <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriesCollapse">
+                <i class="bi bi-filter-left me-2"></i> Показать категории
+            </button>
         </div>
-    </div>
-    <div class="col-md-9">
-        <div class="row">
-            {% for product in products %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="{{ product.get_absolute_url }}">
-                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                             class="card-img-top" alt="{{ product.name }}">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="#" class="text-decoration-none">{{ product.name }}</a>
-                        </h5>
-                        <p class="card-text">{{ product.price|floatformat:2 }} руб.</p>
-                    </div>
-                    <div class="card-footer bg-white">
-                        <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
-                        </form>
+
+        <!-- Боковое меню категорий -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card border-0 shadow-sm collapse d-md-block" id="categoriesCollapse">
+                <!-- Заголовок (скрыт только на мобильных) -->
+                <div class="card-header bg-primary text-white py-3 d-none d-md-block">
+                    <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Категории</h5>
+                </div>
+
+                <!-- Список категорий -->
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action {% if not category %}active bg-light{% endif %} border-0 text-dark">
+                            Все товары
+                        </a>
+                        {% for c in categories %}
+                        <a href="{{ c.get_absolute_url }}"
+                           class="list-group-item list-group-item-action {% if category.slug == c.slug %}active bg-light{% endif %} border-0 text-dark">
+                            {{ c.name }}
+                        </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-12">
-                <div class="alert alert-info">Товары не найдены.</div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="col-lg-9 col-md-8">
+            <div class="row g-4">
+                {% for product in products %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm hover-effect">
+                        <!-- Плашка "Акция" -->
+                        {% if product.old_price %}
+                        <span class="badge bg-accent position-absolute top-0 end-0 m-2">
+                            <i class="bi bi-percent"></i> Акция
+                        </span>
+                        {% endif %}
+
+                        <!-- Квадратное изображение 1:1 -->
+                        <div class="ratio ratio-1x1 bg-light">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                 class="card-img-top p-3 object-fit-contain"
+                                 alt="{{ product.name }}">
+                        </div>
+
+                        <div class="card-body d-flex flex-column pb-0">
+                            <h5 class="card-title">
+                                <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
+                                    {{ product.name }}
+                                </a>
+                            </h5>
+
+                            <!-- Блок с ценами -->
+                            <div class="mt-auto mb-3">
+                                {% if product.old_price %}
+                                <p class="text-muted mb-1">
+                                    <del>{{ product.old_price|floatformat:2 }} руб.</del>
+                                </p>
+                                {% endif %}
+                                <h5 class="text-primary mb-0">{{ product.price|floatformat:2 }} руб.</h5>
+                            </div>
+                        </div>
+
+                        <!-- Кнопка "В корзину" -->
+                        <div class="card-footer bg-white border-0 pt-0 pb-3">
+                            <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary w-100 py-2">
+                                    <i class="bi bi-cart3 me-2"></i>В корзину
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info shadow-sm">
+                        <i class="bi bi-info-circle me-2"></i>Товары не найдены
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>

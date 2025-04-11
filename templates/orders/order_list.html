@@ -1,48 +1,88 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Мои заказы{% endblock %}
+{% block title %}Мои заказы | Тренд{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Мои заказы</h1>
+<div class="container my-4">
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="fw-bold mb-0">Мои <span class="text-primary">заказы</span></h1>
+        <span class="ms-3 fs-4 text-primary"><i class="bi bi-bag"></i></span>
+    </div>
 
     {% if orders %}
-    <div class="table-responsive">
-        <table class="table">
-            <thead class="table-light">
-                <tr>
-                    <th>№ заказа</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Сумма</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr>
-                    <td>{{ order.display_id }}</td>
-                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
-                    <td>
-                        <span class="badge bg-{{ order.get_status_color }}">
-                            {{ order.get_status_display }}
-                        </span>
-                    </td>
-                    <td>{{ order.total_price }} ₽</td>
-                    <td>
-                        <a href="{% url 'orders:order_detail' order.id %}"
-                           class="btn btn-sm btn-outline-primary">
-                            Подробнее
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Десктопная таблица -->
+    <div class="d-none d-md-block">
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>№ заказа</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th class="text-end">Сумма</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td class="fw-bold">{{ order.display_id }}</td>
+                            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                            <td>
+                                <span class="badge bg-{{ order.get_status_color }}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="text-end">{{ order.total_price }} ₽</td>
+                            <td class="text-end">
+                                <a href="{% url 'orders:order_detail' order.id %}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Подробнее
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Мобильный список -->
+    <div class="d-md-none">
+        <div class="list-group">
+            {% for order in orders %}
+            <div class="list-group-item border-0 shadow-sm mb-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="fw-bold">№{{ order.display_id }}</span>
+                    <span class="badge bg-{{ order.get_status_color }}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                    <span class="fw-bold">{{ order.total_price }} ₽</span>
+                </div>
+
+                <a href="{% url 'orders:order_detail' order.id %}"
+                   class="btn btn-sm btn-outline-primary w-100">
+                    Подробнее о заказе
+                </a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     {% else %}
-    <div class="alert alert-info">
-        У вас пока нет заказов. <a href="{% url 'product_list' %}" class="alert-link">Начать покупки</a>
+    <div class="card border-0 shadow-sm text-center py-5">
+        <div class="card-body">
+            <i class="bi bi-bag-x text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold mb-3">У вас пока нет заказов</h4>
+            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                <i class="bi bi-grid me-2"></i>Перейти в каталог
+            </a>
+        </div>
     </div>
     {% endif %}
 </div>
