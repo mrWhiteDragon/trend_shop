@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Заказ {{ order.display_id }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Заказ {{ order.display_id }}</h1>
+        <span class="badge bg-{{ order.get_status_color }} fs-6">
+            {{ order.get_status_display }}
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h2 class="h5 mb-0">Состав заказа</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th>Количество</th>
+                                    <th>Цена</th>
+                                    <th>Сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ item.product.get_absolute_url }}">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.price }} ₽</td>
+                                    <td>{{ item.total_price }} ₽</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-group-divider">
+                                <tr>
+                                    <th colspan="3">Итого:</th>
+                                    <th>{{ order.total_price }} ₽</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h2 class="h5 mb-0">Информация о заказе</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Дата оформления:</strong><br>
+                    {{ order.created_at|date:"d.m.Y H:i" }}</p>
+
+                    <p><strong>Статус:</strong><br>
+                    <span class="badge bg-{{ order.get_status_color }}">
+                        {{ order.get_status_display }}
+                    </span></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h2 class="h5 mb-0">Данные доставки</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Адрес:</strong><br>
+                    {{ order.shipping_address }}</p>
+
+                    <p><strong>Телефон:</strong><br>
+                    {{ order.phone }}</p>
+
+                    <p><strong>Email:</strong><br>
+                    {{ order.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if order.status == 'new' %}
+    <div class="card mt-4 border-danger">
+        <div class="card-header bg-danger text-white">
+            <h2 class="h5 mb-0">Отмена заказа</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'orders:cancel_order' order.id %}">
+                {% csrf_token %}
+                <p>Вы уверены, что хотите отменить этот заказ?</p>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-x-circle"></i> Да, отменить заказ
+                </button>
+                <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-secondary">
+                    Нет, вернуться назад
+                </a>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'orders:order_list' %}" class="btn btn-secondary">
+            ← Вернуться к списку заказов
+        </a>
+    </div>
+</div>
+{% endblock %}

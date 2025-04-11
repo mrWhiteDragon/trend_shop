@@ -25,7 +25,7 @@
                     <p class="card-text text-danger">
                         <strong>{{ product.price }} руб.</strong>
                     </p>
-                    <form action="#" method="post">
+                    <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary">В корзину</button>
                     </form>

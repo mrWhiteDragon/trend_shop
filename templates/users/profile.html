@@ -17,7 +17,8 @@
                     <p><strong>Телефон:</strong> {{ user.phone }}</p>
                     <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}</p>
                     <div class="mt-4">
-                        <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
+                        <a href="{% url 'product_list' %}" class="btn btn-primary mr-2">Перейти в каталог</a>
+                        <a href="{% url 'logout' %}" class="btn btn-danger ml-2">Выйти</a>
                     </div>
                 </div>
             </div>

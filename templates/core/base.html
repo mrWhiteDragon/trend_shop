@@ -20,8 +20,9 @@
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'orders:order_list' %}"><i class="bi bi-list-check me-1"></i> Мои заказы</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cart:cart_detail' %}">Корзина</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Профиль</a></li>
-                        <li class="nav-item"><a class="nav-link" hhref="#">Корзина</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>

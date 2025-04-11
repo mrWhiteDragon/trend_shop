@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'core',
     'products',
     'users',
-    # 'orders',
-    # 'cart',
+    'cart',
+    'orders',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -140,9 +140,4 @@ LOGOUT_REDIRECT_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-#
-# SILENCED_SYSTEM_CHECKS = [
-#     'users',
-#     'orders',
-#     'cart',
-# ]
+
