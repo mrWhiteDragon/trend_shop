@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from cart.models import Cart
 from .models import Order, OrderItem
 from .forms import OrderForm
@@ -19,7 +18,6 @@ def create_order(request):
             order.cart = cart
             order.save()
 
-            # Переносим товары из корзины в заказ
             for item in cart.items.all():
                 OrderItem.objects.create(
                     order=order,
@@ -28,7 +26,8 @@ def create_order(request):
                     price=item.product.price
                 )
 
-            messages.success(request, "Ваш заказ успешно оформлен!")
+            cart.items.all().delete()
+
             return redirect('orders:order_detail', order_id=order.id)
     else:
         initial = {
@@ -74,10 +73,10 @@ def cancel_order(request, order_id):
         Order,
         id=order_id,
         customer=request.user,
-        status='new'  # Можно отменять только новые заказы
+        status='new'
     )
 
     order.status = 'cancelled'
     order.save()
-    messages.success(request, f"Заказ {order.display_id} успешно отменён")
+
     return redirect('orders:order_detail', order_id=order.id)

@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Регистрация{% endblock %}
+{% block title %}Регистрация | Тренд{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -11,10 +11,16 @@
                 <h4 class="mb-0">Регистрация</h4>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" novalidate>
                     {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+                    {{ form.first_name|as_crispy_field }}
+                    {{ form.last_name|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    {{ form.phone|as_crispy_field }}
+                    {{ form.password1|as_crispy_field }}
+                    {{ form.password2|as_crispy_field }}
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Зарегистрироваться</button>
                 </form>
                 <div class="mt-3 text-center">
                     Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>

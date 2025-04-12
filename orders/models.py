@@ -52,6 +52,10 @@ class Order(models.Model):
         }
         return colors.get(self.status, 'secondary')
 
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
 class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,
@@ -71,3 +75,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
+
+    class Meta:
+        verbose_name = 'Покупка в заказе'
+        verbose_name_plural = 'Покупки в заказе'

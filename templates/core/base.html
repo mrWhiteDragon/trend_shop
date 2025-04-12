@@ -60,9 +60,12 @@
                         <a class="nav-link position-relative" href="{% url 'cart:cart_detail' %}">
                             <i class="bi bi-cart3 me-1"></i>
                             Корзина
-                            <span class="position-absolute top-3 start-100 translate-middle badge rounded-pill bg-accent">
-                                    {{ cart|length }}
+                            {% if cart_items_count > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ cart_items_count }}
+                                    <span class="visually-hidden">товаров в корзине</span>
                                 </span>
+                            {% endif %}
                         </a>
                     </li>
                     <li class="nav-item">
@@ -89,7 +92,6 @@
             </div>
         </div>
     </nav>
-
 
 
     <div class="container">

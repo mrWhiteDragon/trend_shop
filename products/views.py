@@ -4,7 +4,7 @@ from django.db.models import Q
 
 
 def main(request):
-    featured_products = Product.objects.filter(is_featured=True, available=True)[:3]  # Берем 3 акционных товара
+    featured_products = Product.objects.filter(is_featured=True, available=True)
     return render(request, 'products/main.html', {
         'featured_products': featured_products
     })

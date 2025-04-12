@@ -8,7 +8,7 @@
 
     <form class="d-flex mt-4" action="{% url 'product_list' %}" method="get">
         <input class="form-control search-box me-2" type="search" name="q"
-               placeholder="🔍 Найти гаджеты, кроссовки, косметику..."
+               placeholder="🔍 Найти смартфон, наушники, кроссовки..."
                value="{{ search_query|default:'' }}">
         <button class="btn btn-primary search-btn" type="submit">
             <span class="d-none d-sm-inline">Поиск</span>

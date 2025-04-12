@@ -243,3 +243,8 @@ footer {
         margin-top: -80px; /* Компенсируем увеличенный отступ */
     }
 }
+
+.navbar .badge {
+    font-size: 0.7rem;
+    padding: 0.25em 0.4em;
+}
