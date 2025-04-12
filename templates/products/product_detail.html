@@ -4,19 +4,66 @@
 {% block title %}{{ product.name }} | Тренд{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6">
-        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-             class="img-fluid rounded" alt="{{ product.name }}">
-    </div>
-    <div class="col-md-6">
-        <h1>{{ product.name }}</h1>
-        <p class="h4 text-danger mb-4">{{ product.price|floatformat:2 }} руб.</p>
-        <p>{{ product.description }}</p>
-        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="mt-4">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-lg">Добавить в корзину</button>
-        </form>
+<div class="container py-5">
+    <div class="row">
+        <!-- Изображение товара -->
+        <div class="col-lg-6 mb-4">
+            <div class="bg-light p-4 rounded-3 shadow-sm">
+                <div class="ratio ratio-1x1">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                         class="img-fluid object-fit-contain"
+                         alt="{{ product.name }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация о товаре -->
+        <div class="col-lg-6">
+            <h1 class="fw-bold mb-3">{{ product.name }}</h1>
+
+            <!-- Цена -->
+            <div class="mb-4">
+                {% if product.old_price %}
+                <span class="text-muted me-2">
+                    <del>{{ product.old_price|floatformat:2 }} руб.</del>
+                </span>
+                <span class="badge bg-danger mb-2">Акция</span>
+                {% endif %}
+                <h3 class="text-primary">{{ product.price|floatformat:2 }} руб.</h3>
+            </div>
+
+            <!-- Описание -->
+            <div class="mb-4">
+                <h5 class="fw-bold">Описание</h5>
+                <p class="text-muted">{{ product.description|linebreaks }}</p>
+            </div>
+
+            <!-- Кнопка "В корзину" -->
+            <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="mb-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                    <i class="bi bi-cart3 me-2"></i>Добавить в корзину
+                </button>
+            </form>
+
+            <!-- Дополнительная информация -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span>В наличии</span>
+                    </div>
+                    <div class="d-flex mb-2">
+                        <i class="bi bi-truck text-primary me-2"></i>
+                        <span>Бесплатная доставка.</span>
+                    </div>
+                    <div class="d-flex">
+                        <i class="bi bi-arrow-return-left text-info me-2"></i>
+                        <span>Возврат в течение 14 дней</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

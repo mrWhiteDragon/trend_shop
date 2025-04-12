@@ -9,10 +9,20 @@
 }
 
 /* Общие стили */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     background-color: #f8f9fa;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
+
 
 /* Навигационная панель */
 .navbar {
@@ -204,4 +214,32 @@ body {
 .bg-primary {
     background-color: var(--primary) !important;
     /* !important гарантирует приоритет над Bootstrap */
+}
+
+/* Основное содержимое - растягивается, чтобы занять все доступное пространство */
+.container.my-4 {
+    flex: 1 0 auto;
+    padding-bottom: 60px; /* Отступ для footer */
+}
+
+/* Footer - прижимаем к низу */
+footer {
+    flex-shrink: 0;
+    margin-top: -60px; /* Компенсируем padding-bottom у контейнера */
+}
+
+/* Для страницы с заказами - дополнительные стили */
+.order-list-container {
+    min-height: calc(100vh - 300px); /* Минимальная высота, учитывая header и footer */
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .container.my-4 {
+        padding-bottom: 80px; /* Увеличиваем отступ для мобильных */
+    }
+
+    footer {
+        margin-top: -80px; /* Компенсируем увеличенный отступ */
+    }
 }
